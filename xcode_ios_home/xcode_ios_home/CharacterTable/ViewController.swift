@@ -51,26 +51,5 @@ final class ViewController: UIViewController, UITableViewDataSource {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        //ЗАПРОС ДАННЫХ
-        let url: URL = URL(string: "https://gravity-falls-api.vercel.app/api/characters")!
-        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-            guard let data = data, error == nil else { return }
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            //Обработка данных
-            self.characterData = try! decoder.decode([CharacterDTO].self, from: data)
-            //ОБНОВЛЯЕМ ТАБЛИЧКУ
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-            self.tableView.reloadData()
-        }).resume()
     }
-}
-
-struct CharacterDTO: Decodable {
-    let id: Int
-    let name: String
-//    let imageUrl: URL
-    let quote: String
 }
